@@ -1,0 +1,275 @@
+/* =========================================================
+   San Joaquin Valley Town Hall - Exercise 8-2
+   Mobile-first responsive design.
+   Base styles = small screens. Media queries add the wider
+   layouts for the header, navigation menu, and columns.
+   ========================================================= */
+
+:root {
+    --accent: #7a3b4b;        /* maroon accent color */
+    --accent-dark: #5e2c3a;
+    --text: #222;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 100%;
+    line-height: 1.5;
+    color: var(--text);
+    background-color: #fff;
+}
+
+#page {
+    max-width: 960px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+}
+
+img {
+    max-width: 100%;      /* images shrink with the viewport */
+    height: auto;
+}
+
+h1, h2, h3 { color: var(--accent); }
+a { color: #1a4fa0; }
+
+/* ---------- header (mobile-first: centered, no logo) ---------- */
+header {
+    text-align: center;
+    padding: 0.5em 1em;
+    background: linear-gradient(135deg, #ffffff 55%, #efe2b0 100%);
+}
+header img {
+    display: none;
+}
+header h1 {
+    margin: 0.25em 0 0;
+    font-size: 1.6em;
+}
+header h2 {
+    margin: 0 0 0.4em;
+    font-size: 1.15em;
+    font-style: italic;
+}
+
+/* ---------- navigation (mobile-first: hamburger menu) ---------- */
+.navbar {
+    position: relative;
+    background-color: var(--accent);
+}
+
+/* menu button + hamburger symbol */
+.menu-btn {
+    display: block;
+    padding: 0.4em 0.75em;
+    color: #fff;
+    font-size: 1.6em;
+    line-height: 1.2;
+    cursor: pointer;
+    user-select: none;
+}
+.menu-btn::before {
+    content: "\2630";            /* hamburger symbol */
+}
+
+/* hide the checkbox */
+#menu-toggle {
+    display: none;
+}
+
+/* checked: show the menu and swap hamburger for close (X) */
+#menu-toggle:checked ~ .menu {
+    display: block;
+}
+#menu-toggle:checked ~ .menu-btn::before {
+    content: "\2715";            /* close (X) symbol */
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    width: 40%;
+    min-width: 12em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--accent);
+    z-index: 10;
+}
+.menu li {
+    position: relative;
+}
+.menu a {
+    display: block;
+    margin: 0 2px 2px 0;
+    padding: 0.6em 0.9em;
+    color: #fff;
+    text-decoration: none;
+    background-color: var(--accent);
+}
+.menu a:hover,
+.menu a:focus {
+    background-color: var(--accent-dark);
+}
+.menu a.current {
+    background-color: #fff;
+    color: var(--text);
+}
+
+/* right-pointing triangle after items that have a submenu */
+.menu small::after {
+    content: "\25B6";
+}
+
+/* submenus (mobile-first: fly out to the right of the item) */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--accent);
+}
+.menu li:hover > .submenu,
+.menu li:focus-within > .submenu {
+    display: block;
+}
+.submenu li a {
+    margin: 0 0 2px 2px;
+}
+
+/* ---------- main content (mobile-first: 1 column) ---------- */
+main {
+    display: flex;
+    flex-direction: column-reverse;   /* <section> shows before <aside> */
+}
+section {
+    padding: 0 1em 1em;
+    border-bottom: 2px solid var(--accent);
+}
+aside {
+    padding: 0 1em 1em;
+}
+aside h2 {
+    margin-bottom: 0;
+}
+aside h3 {
+    margin: 0.75em 0 0.1em;
+    color: var(--text);
+    font-size: 1em;
+}
+aside img {
+    margin: 0.25em 0 0.5em;
+    max-width: 150px;
+    width: 100%;
+    border: 1px solid #999;
+}
+blockquote {
+    margin: 1em 1.5em;
+    font-style: italic;
+}
+blockquote p { margin: 0; }
+.bullets {
+    padding-left: 1.5em;
+}
+
+footer {
+    padding: 0.5em 1em;
+    text-align: center;
+    font-size: 0.85em;
+    color: #fff;
+    background-color: var(--accent);
+}
+footer p { margin: 0; }
+
+
+/* =========================================================
+   MEDIA QUERY 1 - header: logo appears, headings left-aligned
+   ========================================================= */
+@media (min-width: 500px) {
+    header {
+        display: flex;
+        align-items: center;
+        text-align: left;
+    }
+    header img {
+        display: block;
+        flex: 0 0 auto;
+        width: 100px;
+        margin-right: 1em;
+    }
+}
+
+
+/* =========================================================
+   MEDIA QUERY 2 - navigation: horizontal menu, no hamburger
+   ========================================================= */
+@media (min-width: 640px) {
+    .menu-btn {
+        display: none;
+    }
+
+    /* the checked rule is repeated so the menu stays horizontal
+       even if the checkbox was left checked on a small screen */
+    .menu,
+    #menu-toggle:checked ~ .menu {
+        display: flex;
+        position: relative;
+        width: 100%;
+        min-width: 0;
+    }
+    .menu li {
+        flex: 0 0 auto;
+    }
+    .menu a {
+        margin: 0 2px 0 0;
+        padding: 0.7em 1.8em;
+    }
+    .menu li:last-child a {
+        margin-right: 0;
+    }
+
+    /* down-pointing triangle after items that have a submenu */
+    .menu small::after {
+        content: "\25BC";
+    }
+
+    /* submenus drop down beneath the item */
+    .submenu {
+        top: auto;
+        left: 0;
+        width: max-content;
+        min-width: 100%;
+        right: auto;
+    }
+    .submenu li a {
+        margin: 2px 0 0 0;
+        white-space: nowrap;
+    }
+}
+
+
+/* =========================================================
+   MEDIA QUERY 3 - columns: 2-column layout
+   ========================================================= */
+@media (min-width: 760px) {
+    main {
+        flex-direction: row;
+    }
+    aside {
+        flex-basis: 25%;
+        padding-top: 0.5em;
+    }
+    section {
+        flex-basis: 75%;
+        border-bottom: none;
+        padding-top: 0.5em;
+    }
+}
